@@ -1,0 +1,123 @@
+<div class="marg" *ngIf="this.auth.isAuthorization()">
+  <h3 *ngIf= "onWeek"> {{time?.week}} неделя</h3>
+    <button mat-stroked-button color="primary" (click)="backWeek()">
+      <i class="material-icons right">keyboard_arrow_left</i> </button>
+    {{time?.monday}} - {{time?.sunday}}
+
+    <button mat-stroked-button color="primary" (click)="nextWeek()">
+      <i class="material-icons right">keyboard_arrow_right</i> </button>
+</div>
+
+<div *ngIf="this.auth.isAuthorization()">
+<form [formGroup]="form" class = "marg" >
+
+  <mat-form-field class="example-chip-list" >
+    <mat-select formControlName="groups" placeholder="Группы" [multiple]="true" #multiSelect (selectionChange)="updateTable()">
+      <ngx-mat-select-search [placeholderLabel]="'Введите название'" [noEntriesFoundLabel] = "'Ничего не найдено'"
+                              [formControl]="groupFilderCtrl">
+      </ngx-mat-select-search>
+      <mat-option *ngFor="let group of filteredGroups | async" [value]="group">
+        {{group}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-chip-list">
+    <mat-select placeholder="Дисциплин\
+" formControlName="disciplin" multiple (selectionChange)="updateTable()">
+      <mat-option *ngFor="let d of disciplines" [value]="d">{{d}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-chip-list">
+    <input  matInput [matDatepicker]="picker" placeholder="Выберите дату" formControlName="todayIn" (dateChange)="updateTable()" >
+    <mat-datepicker-toggle matSuffix [for]="picker"  >
+    </mat-datepicker-toggle>
+    <mat-datepicker #picker [touchUi]="" ></mat-datepicker>
+  </mat-form-field>
+  <div>
+    <h2 class = "marg"*ngIf="develop">Занятия отсутсвуют</h2>
+  </div>
+  <div >
+    <button mat-raised-button color="primary" class="action-button" (click)="addLession()">Добавить консультацию</button>
+
+  <button mat-raised-button color="primary" class="action-button"
+          (click)="exportPdf()">
+    <mat-icon>cloud_upload</mat-icon>
+    Сохранить
+  </button>
+  </div>
+
+</form>
+
+
+
+<table mat-table
+[dataSource]="pairs" multiTemplateDataRows
+class="mat-elevation-z8" *ngIf="tableBool">
+
+<ng-container matColumnDef="nameGroup">
+  <th mat-header-cell *matHeaderCellDef> Группа </th>
+  <td mat-cell *matCellDef="let element"> {{element.nameGroup}} </td>
+</ng-container>
+
+  <ng-container matColumnDef="subgroup">
+    <th mat-header-cell *matHeaderCellDef> Подгруппа </th>
+    <td mat-cell *matCellDef="let element"> {{element.subgroup}} </td>
+  </ng-container>
+
+<ng-container matColumnDef="dayWeek">
+  <th mat-header-cell *matHeaderCellDef> День недели </th>
+  <td mat-cell *matCellDef="let element"> {{element.dayWeek}}</td>
+</ng-container>
+
+<ng-container matColumnDef="numberPair">
+  <th mat-header-cell *matHeaderCellDef> № пары </th>
+  <td mat-cell *matCellDef="let element"> {{element.numberPair}} </td>
+</ng-container>
+
+<ng-container matColumnDef="date">
+  <th mat-header-cell *matHeaderCellDef > Дата </th>
+  <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+</ng-container>
+
+<ng-container matColumnDef="typepair">
+  <th mat-header-cell *matHeaderCellDef> Вид </th>
+  <td mat-cell *matCellDef="let element"> {{element.typepair}} </td>
+</ng-container>
+
+<ng-container matColumnDef="discipline">
+  <th mat-header-cell *matHeaderCellDef> Дисциплина </th>
+  <td mat-cell *matCellDef="let element"> {{element.discipline}} </td>
+</ng-container>
+
+<ng-container matColumnDef="room">
+  <th mat-header-cell *matHeaderCellDef> Кабинет </th>
+  <td mat-cell *matCellDef="let element"> {{element.room}} </td>
+</ng-container>
+
+  <ng-container matColumnDef="info">
+    <th mat-header-cell *matHeaderCellDef> Информация </th>
+    <td mat-cell *matCellDef="let element"> {{element.info}}  </td>
+  </ng-container>
+
+
+<!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+<ng-container matColumnDef="expandedDetail">
+  <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+  </td>
+</ng-container>
+
+<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+<tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+    class="example-element-row"
+    [class.example-expanded-row]="expandedElement === element"
+    (click) = "selectRow(element)"
+>
+<!--    (click)="expandedElement = expandedElement === element ? null : element">-->
+</tr>
+<tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>
+</div>
+
+

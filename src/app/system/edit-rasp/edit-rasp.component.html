@@ -1,0 +1,142 @@
+<div class="marg" *ngIf="this.auth.isAuthorization()">
+  <h3 *ngIf= "onWeek"> {{time?.week}} неделя</h3>
+  <h3 *ngIf= "!onWeek"> </h3>
+  <button mat-stroked-button color="primary" (click)="backWeek()">
+    <i class="material-icons right">keyboard_arrow_left</i> </button>
+  {{time?.monday}} - {{time?.sunday}}
+
+  <button mat-stroked-button color="primary" (click)="nextWeek()">
+    <i class="material-icons right">keyboard_arrow_right</i> </button>
+</div>
+
+<div *ngIf="this.auth.isAuthorization()">
+<form [formGroup]="form" >
+  <mat-form-field class="example-chip-list">
+    <mat-select formControlName="teacher" placeholder="Преподаватели" #singleSelect (selectionChange)="updateTable()">
+      <mat-option>
+        <ngx-mat-select-search [placeholderLabel]="'Введите ФИО'" [formControl]="teacherFilderCtrl"></ngx-mat-select-search>
+      </mat-option>
+      <mat-option [value]="null">--</mat-option>
+      <mat-option *ngFor="let teacher of filteredTeacher| async" [value]="teacher">
+        {{teacher}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-chip-list" >
+    <mat-select formControlName="groups" placeholder="Группы" [multiple]="true" #multiSelect (selectionChange)="updateTable()">
+      <ngx-mat-select-search [placeholderLabel]="'Введите название'" [noEntriesFoundLabel] = "'Ничего не найдено'"
+                             [formControl]="groupFilderCtrl">
+      </ngx-mat-select-search>
+      <mat-option *ngFor="let group of filteredGroups | async" [value]="group">
+        {{group}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-chip-list">
+    <mat-select placeholder="Дисциплины" formControlName="disciplin" multiple (selectionChange)="updateTable()">
+      <mat-option *ngFor="let d of disciplines" [value]="d">{{d}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-chip-list">
+    <input  matInput [matDatepicker]="picker" placeholder="Выберите дату" formControlName="todayIn" (dateChange)="updateTable()" >
+    <mat-datepicker-toggle matSuffix [for]="picker"  >
+    </mat-datepicker-toggle>
+    <mat-datepicker #picker [touchUi]="" ></mat-datepicker>
+  </mat-form-field>
+
+</form>
+<div >
+  <button mat-raised-button color="primary" class="action-button" (click)="addKonsul()">Добавить консультацию </button>
+  <button mat-raised-button color="primary" class="action-button" (click)="addNewPair()">Добавить занятие</button>
+  <button mat-raised-button color="primary" class="action-button"
+          (click)="uploadSchedule()">
+    Загрузить расписание
+  </button>
+  <button mat-raised-button color="primary" class="action-button"
+          (click)="addInfOfGroups()">
+    Загрузить информацию о группах
+  </button>
+  <button mat-raised-button color="primary" class="action-button"
+          (click)="exportXls()">
+    <mat-icon>cloud_upload</mat-icon>
+    Сохранить
+  </button>
+</div>
+
+<h2 class="marg" *ngIf="develop">Занятия отсутсвуют</h2>
+<!--  <app-edit-table *ngIf="((!develop)&&(tableBool))" [outPairs]="pairs" [time]="time"  [form]="form" [tableBool]="tableBool"> </app-edit-table>-->
+  <table mat-table
+         [dataSource]="dataSource"
+         class="mat-elevation-z15" *ngIf="tableBool">
+    <ng-container matColumnDef="teacher" sticky>
+      <th mat-header-cell *matHeaderCellDef> Преподаватель </th>
+      <td mat-cell *matCellDef="let element"> {{element.teacher}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dayWeek">
+      <th mat-header-cell *matHeaderCellDef> День недели </th>
+      <td mat-cell *matCellDef="let element"> {{element.dayWeek}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef > Дата </th>
+      <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="numberPair">
+      <th mat-header-cell *matHeaderCellDef> № пары </th>
+      <td mat-cell *matCellDef="let element"> {{element.numberPair}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nameGroup">
+      <th mat-header-cell *matHeaderCellDef> Группа </th>
+      <td mat-cell *matCellDef="let element"> {{element.nameGroup}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="subgroup">
+      <th mat-header-cell *matHeaderCellDef> Подгруппа </th>
+      <td mat-cell *matCellDef="let element"> {{element.subgroup}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="typepair">
+      <th mat-header-cell *matHeaderCellDef> Вид </th>
+      <td mat-cell *matCellDef="let element"> {{element.typepair}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="discipline">
+      <th mat-header-cell *matHeaderCellDef> Дисциплина </th>
+      <td mat-cell *matCellDef="let element"> {{element.discipline}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="room">
+      <th mat-header-cell *matHeaderCellDef> Аудитория </th>
+      <td mat-cell *matCellDef="let element"> {{element.room}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="info">
+      <th mat-header-cell *matHeaderCellDef > Информация </th>
+      <td mat-cell *matCellDef="let element"> {{element.info}}  </td>
+    </ng-container>
+
+
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click) = "selecrRow(element)"
+    >
+    </tr>
+  </table>
+<!--  <mat-paginator [pageSizeOptions]="[10, 15, 20]"></mat-paginator>-->
+
+
+    <div *ngIf="tableBool">
+    <mat-paginator  [pageSizeOptions]="[10, 15, 20]"></mat-paginator>
+  </div>
+
+
+</div>

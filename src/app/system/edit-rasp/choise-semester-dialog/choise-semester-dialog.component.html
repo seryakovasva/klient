@@ -1,0 +1,19 @@
+<div class="center">
+  <h1>Загрузка расписания</h1>
+  <mat-form-field class="example-chip-list">
+    <mat-select placeholder="Семестр" [(ngModel)]="selectSem">
+      <mat-option value="spring">весенний</mat-option>
+     <mat-option value="autumn">осенний</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <input class="example-chip-list" type="file"(change)="onFileInput($event)" accept=".xls,.xml">
+
+  <p *ngIf="err" class="error"> {{msgErr}}</p>
+
+  <button mat-raised-button color="Basic" class="action-button"
+          (click)="onFileUpload()"
+          [disabled]="((selectSem == undefined) || (selectedFile == undefined))">
+    Загрузить
+  </button>
+</div>

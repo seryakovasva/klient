@@ -1,0 +1,57 @@
+<form [formGroup]="form" class="center">
+  <h1>Добавление консультации</h1>
+  <p *ngIf="serErorros" class="error"> {{msgErr}}</p>
+
+  <mat-form-field class="example-chip-list">
+    <mat-select formControlName="teacher" placeholder="Преподаватели" #singleSelect1 >
+      <mat-option>
+        <ngx-mat-select-search [placeholderLabel]="'Введите ФИО'" [noEntriesFoundLabel] = "'Ничего не найдено'" [formControl]="teacherFilderCtrl"></ngx-mat-select-search>
+      </mat-option>
+      <mat-option *ngFor="let teacher of filteredTeacher| async" [value]="teacher">
+        {{teacher}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-chip-list">
+    <mat-select  placeholder="Группы" #singleSelect  (selectionChange)="getDis()" formControlName="name" >
+      <mat-option>
+        <ngx-mat-select-search [placeholderLabel]="'Введите название'" [noEntriesFoundLabel] = "'Ничего не найдено'" [formControl]="groupFilderCtrl" ></ngx-mat-select-search>
+      </mat-option>
+      <mat-option *ngFor="let group of filteredGroups| async" [value]="group">
+        {{group}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-chip-list">
+    <input  matInput [matDatepicker]="date" placeholder="Выберите дату" formControlName="date" (dateChange)="getFreePair()" >
+    <mat-datepicker #date [touchUi]="" ></mat-datepicker>
+    <mat-datepicker-toggle matSuffix [for]="date" [disabled]="form.controls['date'].disabled" >
+    </mat-datepicker-toggle>
+
+  </mat-form-field>
+
+  <div >
+    <mat-form-field class="example-chip-list">
+      <mat-select placeholder="Дисциплины" formControlName="discipline" (selectionChange)="flag()" >
+        <mat-option *ngFor="let d of disciplines" [value]="d">{{d}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field class="example-chip-list">
+      <mat-select placeholder="№ занятий" formControlName="number" (selectionChange)="flag()">
+        <mat-option *ngFor="let num of numberP" [value]="num">{{num}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="example-chip-list">
+      <mat-select placeholder="Аудитории" formControlName="room" (selectionChange)="flag()">
+        <mat-option *ngFor="let r of rooms" [value]="r">{{r}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button [disabled]="onBtn" mat-raised-button color="primary" (click)="add()">Добавить</button>
+  </div>
+</form>
+

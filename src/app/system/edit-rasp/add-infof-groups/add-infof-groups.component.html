@@ -1,0 +1,13 @@
+<div class="center">
+
+  <h1>Загрузка информации о группах</h1>
+  <input type="file"(change)="onFileInput($event)" accept=".xml">
+
+  <p *ngIf="error" class="error"> {{msgErr}}</p>
+
+  <button mat-raised-button color="Basic" class="action-button"
+          (click)="onFileUpload()"
+          [disabled]="((selectedFile == undefined) && (fileType === false))">
+    Загрузить
+  </button>
+</div>

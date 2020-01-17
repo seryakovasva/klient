@@ -1,0 +1,21 @@
+<mat-toolbar color="primary" class="example-toolbar">
+  <span>Расписание</span>
+  <span class = "flex-grow"></span>
+  <a *ngIf="this.auth.isAuthorization()">
+   <a *ngIf="((auth.isRole() === 'admin') || (auth.isRole() === 'scheduleEditor'))" routerLink="/auth/reg" mat-button  class="docs" >Регистрация</a>
+<!--    <a routerLink="/auth/reg" mat-button  class="docs" >Регистрация</a>-->
+  </a>
+    <a *ngIf="!this.auth.isAuthorization()" class="docs" mat-button routerLink="/auth/login"><mat-icon>input</mat-icon> Войти</a>
+  <a *ngIf="this.auth.isAuthorization()" class="docs" mat-button (click)="logOut()" routerLink="/"><mat-icon>directions_walk</mat-icon> Выйти</a>
+</mat-toolbar>
+
+<nav mat-tab-nav-bar>
+  <a mat-tab-link
+     *ngFor="let catalogsSection of catalogsSelectionList"
+     [routerLink]=catalogsSection.link
+     routerLinkActive #rla="routerLinkActive"
+     [active]="rla.isActive">
+    {{catalogsSection.name}}
+  </a>
+</nav>
+<router-outlet></router-outlet>

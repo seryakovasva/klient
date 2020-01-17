@@ -1,0 +1,55 @@
+
+<div *ngIf="((cancelBool) && (!deleteBool))" class="action-button">
+  <h1 class="centre">Редактирование занятия</h1>
+  <button mat-raised-button  color="primary" (click)="cancelPair()">Отменить занятие</button>
+  <button *ngIf="((auth.isRole() === 'admin') || (auth.isRole() === 'scheduleEditor'))" mat-raised-button
+          color="primary" (click)="this.deleteBool = true">Удалить занятие </button>
+</div>
+<div *ngIf="((!cancelBool) && (!transferBool) && (!deleteBool))" class="action-button">
+  <h1 class="centre">Редактирование занятия</h1>
+    <button mat-raised-button color="primary" (click)="recovery()">Восстановить занятие</button>
+    <button *ngIf="transferConsent" mat-raised-button color="primary"  (click)="transfer()">Перенести занятие</button>
+</div>
+
+<div *ngIf="deleteBool" class="centre">
+  <h2>
+    Вы уверены что хотите удалить занятие?
+  </h2>
+  <div >
+    <button mat-raised-button  color="primary" (click)="this.deleteBool = false">Нет</button>
+    <button mat-raised-button  color="primary" (click)="deletePair()">Да</button>
+  </div>
+</div>
+
+
+
+<div *ngIf="transferBool">
+  <h1 class="centre">Редактирование занятия</h1>
+  <form [formGroup]="form" class="centre">
+    <p *ngIf="serErorros" class="error"> {{msgErr}}</p>
+  <mat-form-field class="example-chip-list">
+    <input  matInput [matDatepicker]="picker" placeholder="Выберите дату" formControlName="todayIn" (dateChange)="chekData()" >
+    <mat-datepicker-toggle matSuffix [for]="picker"   >
+    </mat-datepicker-toggle>
+    <mat-datepicker #picker [touchUi]="" ></mat-datepicker>
+  </mat-form-field>
+
+<!--    <div *ngIf="next">-->
+    <mat-form-field class="example-chip-list">
+      <mat-select placeholder="№ пары" formControlName="selectNumPair" (selectionChange)="flag()">
+        <mat-option *ngFor="let num of numberP" [value]="num">{{num}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('selectNumPair').errors?.required">Поле обязательно для заполнения</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-chip-list">
+      <mat-select placeholder="Аудитория" formControlName="room" (selectionChange)="flag()">
+        <mat-option *ngFor="let r of rooms" [value]="r">{{r}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('room').errors?.required">Поле обязательно для заполнения</mat-error>
+    </mat-form-field>
+      <button mat-raised-button color="primary" [disabled]="onBtn"   (click)="goTransfer()">Перенести занятие</button>
+<!--    </div>-->
+  </form>
+</div>
+

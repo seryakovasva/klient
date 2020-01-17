@@ -1,0 +1,33 @@
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+}
+.flex-grow{
+  flex-grow: 1;
+}
+.action-button{
+  display: flex;
+  margin: 10px;
+}
+.mar{
+  margin: 10px;
+}
+.full-width {
+  margin: 0 1.5% 24px 1.5%;
+}
+
+
+body {
+  height: 100%;
+  display: table-cell;
+  vertical-align: middle;
+  text-align:center!important
+}
+#login-page {
+  width: auto;
+  margin: auto;
+}
+.text-xs-center{text-align:center!important}

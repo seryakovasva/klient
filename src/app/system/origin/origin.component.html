@@ -1,0 +1,41 @@
+<mat-toolbar color="primary" class="example-toolbar">
+  <span>Расписание</span>
+  <span class = "flex-grow"></span>
+  <a *ngIf="this.auth.isAuthorization()">
+    <a *ngIf="((auth.isRole() === 'admin') || (auth.isRole() === 'scheduleEditor'))" [routerLink]="'/auth/reg'" mat-button  class="docs" >Регистрация</a>
+  </a>
+  <a *ngIf="!this.auth.isAuthorization()" class="docs" mat-button routerLink="/auth/login"><mat-icon>input</mat-icon>Войти</a>
+  <a *ngIf="this.auth.isAuthorization()" class="docs" mat-button (click)="logOut()" routerLink="/"><mat-icon>input</mat-icon>Выйти</a>
+</mat-toolbar>
+
+<!--<div>-->
+<!--  <button mat-button color="primary"  (click)= "groups = true; teachers = false; raspTeacher = false; raspAdmin = false"> Группа</button>-->
+<!--  <button mat-button color="primary"  (click)= "teachers = true; groups = false; raspTeacher = false; raspAdmin = false"> Преподаватель</button>-->
+<!--    <button mat-button color="primary" *ngIf="(this.auth.isAuthenticated()) && (auth.isRole() === 'teacher')" (click)= "groups = false; teachers = false;-->
+<!--     raspTeacher = true; raspAdmin = false">-->
+<!--      Мое расписание-->
+<!--    </button>-->
+<!--    <button mat-button color="primary" *ngIf="(this.auth.isAuthenticated()) && ((auth.isRole() === 'admin') ||-->
+<!--     (auth.isRole() === 'scheduleEditor'))" (click)= "groups = false; teachers = false;-->
+<!--    raspTeacher = false; raspAdmin = true">-->
+<!--      Изменить расписание-->
+<!--    </button>-->
+<!--</div>-->
+<!--<hr>-->
+<!--<div>-->
+<!--  <app-group *ngIf="groups" [time]="t"></app-group>-->
+<!--  <app-teachers *ngIf="teachers" [time]="t"></app-teachers>-->
+<!--  <app-create-rasp *ngIf="raspTeacher" [t]="t"></app-create-rasp>-->
+<!--  <app-edit-rasp *ngIf="raspAdmin" [t]="t"></app-edit-rasp>-->
+<!--</div>-->
+
+<nav mat-tab-nav-bar>
+  <a mat-tab-link
+     *ngFor="let catalogsSection of catalogsSelectionList"
+     [routerLink]=catalogsSection.link
+     routerLinkActive #rla="routerLinkActive"
+     [active]="rla.isActive">
+    {{catalogsSection.name}}
+  </a>
+</nav>
+<router-outlet></router-outlet>

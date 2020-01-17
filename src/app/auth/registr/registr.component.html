@@ -1,0 +1,85 @@
+<mat-toolbar color="primary" class="example-toolbar">
+  <span>Расписание</span>
+  <span class = "flex-grow"></span>
+  <a  class="docs" mat-button routerLink=""><mat-icon>reply</mat-icon> На главную </a>
+</mat-toolbar>
+
+<!--<div class="card-div">-->
+<!--  <mat-card class="example-card">-->
+<!--    <mat-card-header>-->
+<!--      <mat-card-title >Регистрация</mat-card-title>-->
+<!--    </mat-card-header>-->
+<!--    <mat-card-content>-->
+<!--      <form [formGroup]="signUp" class="login-form" >-->
+<!--        <p *ngIf="serErorros" class="error"> Пожалуйста, проверьте правильность введённых данных.</p>-->
+<!--        <mat-form-field class = "full-width">-->
+<!--          <input matInput type = "text" formControlName="login" placeholder="Логин" >-->
+<!--          <mat-error *ngIf="signUp.get('login').errors?.required">Поле обязательно для заполнения</mat-error>-->
+<!--          <mat-error *ngIf="!signUp.get('login').errors?.required">{{signUp.get('login').errors}}</mat-error>-->
+<!--        </mat-form-field>-->
+
+<!--        <mat-form-field class = "full-width">-->
+<!--          <input matInput type = "text" formControlName="hashPassword" placeholder="Пароль">-->
+<!--        </mat-form-field>-->
+
+<!--        <mat-form-field class = "full-width">-->
+<!--          <input matInput type = "text" formControlName="name" placeholder="Имя">-->
+<!--        </mat-form-field>-->
+
+<!--        <mat-form-field class = "full-width">-->
+<!--          <input matInput type = "text" formControlName="lastName" placeholder="Фамилия">-->
+<!--        </mat-form-field>-->
+
+<!--        <mat-form-field class = "full-width">-->
+<!--          <input matInput type = "text" formControlName="midleName" placeholder="Отчество">-->
+<!--        </mat-form-field>-->
+
+<!--        <mat-form-field class="example-chip-list" *ngIf="visibleRole">-->
+<!--          <mat-select placeholder="Тип пользователя" formControlName="role">-->
+<!--            <mat-option *ngFor="let r of roles" [value]="r">{{r}}</mat-option>-->
+<!--          </mat-select>-->
+<!--        </mat-form-field>-->
+<!--      </form>-->
+<!--    </mat-card-content>-->
+<!--    <button mat-raised-button (click)="reg()" color="primary" class="mar" >Зарегистрироваться</button>-->
+<!--  </mat-card>-->
+<!--</div>-->
+
+<h2 class="text-xs-center">Регистрация</h2>
+<div id="login-page" >
+  <form class="login-form" [formGroup]="signUp">
+
+    <mat-form-field class = "full-width">
+      <input matInput type = "text" formControlName="login" placeholder="Логин" >
+      <mat-error *ngIf="signUp.get('login').errors?.required">Поле обязательно для заполнения</mat-error>
+      <mat-error *ngIf="!signUp.get('login').errors?.required">{{signUp.get('login').errors}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class = "full-width">
+      <input matInput type = "text" formControlName="hashPassword" placeholder="Пароль">
+      <!--        <mat-error *ngIf="signUp.get('hashPassword').errors.minlength">Минимум 6 символов</mat-error>-->
+    </mat-form-field>
+
+    <mat-form-field class = "full-width">
+      <input matInput type = "text" formControlName="lastName" placeholder="Фамилия">
+    </mat-form-field>
+
+    <mat-form-field class = "full-width">
+        <input matInput type = "text" formControlName="name" placeholder="Имя">
+    </mat-form-field>
+
+    <mat-form-field class = "full-width">
+      <input matInput type = "text" formControlName="midleName" placeholder="Отчество">
+    </mat-form-field>
+
+    <mat-form-field class="example-chip-list" *ngIf="visibleRole">
+      <mat-select placeholder="Тип пользователя" formControlName="role">
+        <mat-option *ngFor="let r of roles" [value]="r">{{r}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="action-button">
+      <button mat-raised-button (click)="reg()" color="primary" class="mar">Зарегистрировать</button>
+    </div>
+  </form>
+</div>

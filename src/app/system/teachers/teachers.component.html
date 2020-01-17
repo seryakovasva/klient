@@ -1,0 +1,71 @@
+<form [formGroup]="form">
+<mat-form-field class="example-chip-list">
+  <mat-select formControlName="teacher" placeholder="Преподаватели" #singleSelect (selectionChange)="selectedTeacher()">
+    <mat-option>
+      <ngx-mat-select-search [placeholderLabel]="'Введите ФИО'" [formControl]="teacherFilderCtrl"></ngx-mat-select-search>
+    </mat-option>
+    <mat-option>--</mat-option>
+    <mat-option *ngFor="let teacher of filteredTeacher| async" [value]="teacher">
+      {{teacher}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<div *ngIf="tableBool" class="time">
+  <h2 > {{nameT}} </h2>
+
+  <div class="marg">
+    <h3 *ngIf= "onWeek"> {{time?.week}} неделя</h3>
+    <div>
+      <button mat-stroked-button color="primary" (click)="backWeek()">
+        <i class="material-icons right">keyboard_arrow_left</i> </button>
+      {{time?.monday}} - {{time?.sunday}}
+      <button mat-stroked-button color="primary" (click)="nextWeek()">
+        <i class="material-icons right">keyboard_arrow_right</i> </button>
+    </div>
+  </div>
+
+  <mat-form-field class="example-chip-list" >
+    <mat-select formControlName="nameGr" placeholder="Группы" [multiple]="true" #multiSelect (closed)="search()">
+      <ngx-mat-select-search [placeholderLabel]="'Введите название'" [noEntriesFoundLabel] = "'Ничего не найдено'" [formControl]="groupFilderCtrl"></ngx-mat-select-search>
+      <mat-option *ngFor="let group of filteredGroups | async" [value]="group">
+        {{group}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-chip-list">
+    <mat-select placeholder="Дисциплины" formControlName="discipline" multiple (closed)="search()">
+      <mat-option *ngFor="let d of disciplines" [value]="d">{{d}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-chip-list">
+    <mat-select placeholder="№ пары" formControlName="numberPair" multiple (closed)="search()">
+      <mat-option *ngFor="let num of numberP" [value]="num">{{num}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-chip-list">
+    <mat-select placeholder="Аудитории" formControlName="room" multiple  (closed)="search()">
+      <mat-option *ngFor="let r of rooms" [value]="r">{{r}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-chip-list">
+    <input  matInput [matDatepicker]="picker" placeholder="Выберите дату" formControlName="date" (dateChange)="search()">
+    <mat-datepicker-toggle matSuffix [for]="picker"   >
+    </mat-datepicker-toggle>
+    <mat-datepicker #picker [touchUi]="" ></mat-datepicker>
+  </mat-form-field>
+</div>
+  <button mat-raised-button color="primary" class="btn" *ngIf="tableBool"
+          (click)="exportPdf()">
+    <mat-icon>cloud_upload</mat-icon>
+    Сохранить
+  </button>
+
+  <app-table *ngIf="((develop)&&(tableBool))" [outPairs]="pairs" > </app-table>
+
+
+</form>
+<h2 class="centre" *ngIf="((!develop)&&(tableBool))">Занятия отсутсвуют</h2>

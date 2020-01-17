@@ -1,0 +1,97 @@
+.action-button{
+  /*display: flex;*/
+  margin: 10px;
+  float: left;
+}
+
+table {
+  width: 98%;
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: #f5f5f5;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+
+.Absolute-Center
+{
+  text-align:center;
+}
+
+mat-form-field {
+  margin-right: 12px;
+  margin-left: 12px;
+}
+
+.marg{
+  margin-right: 12px;
+  margin-left: 12px;
+  margin-top: 5px;
+  text-align: center;
+  width: 100%;
+}
+th.mat-header-cell {
+  text-align: center;
+}
+
+th.mat-header-cell {
+  text-align: center;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+td.mat-cell {
+  text-align: center;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+td.mat-cell.cdk-column-info.mat-column-info.ng-star-instered {
+  text-align: center;
+  padding-left: 20px;
+}
+td.mat-cell:first-of-type{
+  padding-left: 20px;
+
+}

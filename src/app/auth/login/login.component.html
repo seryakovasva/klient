@@ -1,0 +1,26 @@
+<mat-toolbar color="primary" class="example-toolbar">
+  <span>Расписание</span>
+  <span class = "flex-grow"></span>
+  <a  class="docs" mat-button routerLink="/"><mat-icon>reply</mat-icon> На главную </a>
+</mat-toolbar>
+
+<h2 class="text-xs-center">Войдите  в аккаунт</h2>
+<div id="login-page" >
+  <form class="login-form" [formGroup]="form">
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Логин" formControlName="login">
+      <mat-error *ngIf="form.get('login').errors?.required">Поле обязательно для заполнения</mat-error>
+      <mat-error *ngIf="!form.get('login').errors?.required">{{form.get('login').errors}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <input matInput type="password" placeholder="Пароль"  formControlName="password">
+      <mat-error *ngIf="form.get('password').errors?.required">Поле обязательно для заполнения</mat-error>
+      <mat-error *ngIf="!form.get('password').errors?.required">{{form.get('password').errors}}</mat-error>
+    </mat-form-field>
+
+    <div class="action-button">
+      <button mat-raised-button (click)="login()" color="primary" class="mar">Войти</button>
+    </div>
+  </form>
+</div>

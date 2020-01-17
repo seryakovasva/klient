@@ -1,0 +1,14 @@
+.error {
+  background: #f2e1d7;
+  padding: 5px;
+  border: solid 1px #f00000;
+  position: relative;
+  text-align: center;
+  color: #f00000;
+}
+.center{
+  text-align: center;
+}
+.example-chip-list{
+  width: 200px;
+}

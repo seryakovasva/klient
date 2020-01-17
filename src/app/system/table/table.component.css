@@ -1,0 +1,45 @@
+table {
+  width: 98%;
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+th.centered.mat-header-cell {
+  text-align: center;
+}
+th.mat-header-cell {
+  text-align: center;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+th.mat-header-cell {
+  text-align: center;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+td.mat-cell {
+  text-align: center;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+td.mat-cell.cdk-column-info.mat-column-info.ng-star-instered {
+  text-align: center;
+  padding-left: 20px;
+}
+td.mat-cell:first-of-type{
+  padding-left: 20px;
+
+}

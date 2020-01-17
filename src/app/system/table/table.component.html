@@ -1,0 +1,124 @@
+
+<!--<table mat-table [dataSource]="outPairs" class="mat-elevation-z13" *ngIf="!nothing">-->
+
+<!--  <ng-container matColumnDef="nameGroup">-->
+<!--    <th mat-header-cell *matHeaderCellDef> Группа </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.nameGroup}} </td>-->
+<!--  </ng-container>-->
+
+<!--  <ng-container matColumnDef="subgroup">-->
+<!--    <th mat-header-cell *matHeaderCellDef> Подгруппа </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.subgroup}} </td>-->
+<!--  </ng-container>-->
+
+<!--  <ng-container matColumnDef="date">-->
+<!--    <th mat-header-cell *matHeaderCellDef > Дата </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.date}} </td>-->
+<!--  </ng-container>-->
+
+<!--  <ng-container matColumnDef="dayWeek">-->
+<!--    <th mat-header-cell *matHeaderCellDef> День недели </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.dayWeek}}</td>-->
+<!--  </ng-container>-->
+
+<!--  <ng-container matColumnDef="numberPair">-->
+<!--    <th mat-header-cell *matHeaderCellDef> № пары </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.numberPair}} </td>-->
+<!--  </ng-container>-->
+
+
+<!--  <ng-container matColumnDef="typepair">-->
+<!--    <th mat-header-cell *matHeaderCellDef> Вид </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.typepair}} </td>-->
+<!--  </ng-container>-->
+
+<!--  <ng-container matColumnDef="discipline">-->
+<!--    <th mat-header-cell *matHeaderCellDef class="centered"> Дисциплина </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.discipline}} </td>-->
+<!--  </ng-container>-->
+
+<!--  <ng-container matColumnDef="room">-->
+<!--    <th mat-header-cell *matHeaderCellDef> Аудитория </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.room}} </td>-->
+<!--  </ng-container>-->
+
+<!--  <ng-container matColumnDef="teacher">-->
+<!--    <th mat-header-cell *matHeaderCellDef> Преподаватель </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.teacher}} </td>-->
+<!--  </ng-container>-->
+
+<!--  <ng-container matColumnDef="info">-->
+<!--    <th mat-header-cell *matHeaderCellDef class="centered"> Информация </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.info}} </td>-->
+<!--  </ng-container>-->
+
+<!--  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+<!--<tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"></tr>-->
+<!--</table>-->
+
+
+<table mat-table
+       [dataSource]="dataSource"
+       class="mat-elevation-z13" *ngIf="!nothing">
+
+  <ng-container matColumnDef="teacher" sticky>
+    <th mat-header-cell *matHeaderCellDef> Преподаватель </th>
+    <td mat-cell *matCellDef="let element"> {{element.teacher}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="dayWeek">
+    <th mat-header-cell *matHeaderCellDef> День недели </th>
+    <td mat-cell *matCellDef="let element"> {{element.dayWeek}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef > Дата </th>
+    <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="numberPair">
+    <th mat-header-cell *matHeaderCellDef> № пары </th>
+    <td mat-cell *matCellDef="let element"> {{element.numberPair}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="nameGroup">
+    <th mat-header-cell *matHeaderCellDef> Группа </th>
+    <td mat-cell *matCellDef="let element"> {{element.nameGroup}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="subgroup">
+    <th mat-header-cell *matHeaderCellDef> Подгруппа </th>
+    <td mat-cell *matCellDef="let element"> {{element.subgroup}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="typepair">
+    <th mat-header-cell *matHeaderCellDef> Вид </th>
+    <td mat-cell *matCellDef="let element"> {{element.typepair}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="discipline">
+    <th mat-header-cell *matHeaderCellDef> Дисциплина </th>
+    <td mat-cell *matCellDef="let element"> {{element.discipline}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="room">
+    <th mat-header-cell *matHeaderCellDef> Аудитория </th>
+    <td mat-cell *matCellDef="let element"> {{element.room}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="info">
+    <th mat-header-cell *matHeaderCellDef > Информация </th>
+    <td mat-cell *matCellDef="let element"> {{element.info}}  </td>
+  </ng-container>
+
+
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+      class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element"
+  >
+  </tr>
+</table>
+<mat-paginator [pageSizeOptions]="[10,15,20]"></mat-paginator>
+
