@@ -32,8 +32,6 @@ export class AuthService {
     const tokenPayload = decode(token);
     return (tokenPayload.role);
   }
-
-
 }
 
 interface User {

@@ -10,6 +10,7 @@ import {PairService} from '../pair.service';
 import {saveAs} from 'file-saver';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-teachers',
@@ -54,8 +55,10 @@ export class TeachersComponent implements OnInit, AfterViewInit, OnDestroy {
   groupFilderCtrl = new FormControl();
   /** отфильтрованный список */
   filteredGroups: ReplaySubject<string[]> = new ReplaySubject<string[]>(1);
-
+  myDate: number =  Date.now();
+  jstoday: string;
   constructor(private httpService: PairService) {
+    this.jstoday = formatDate(this.myDate, 'dd.MM.yyyy', 'en-US', '+0200');
   }
 
   ngOnInit() {
@@ -70,7 +73,7 @@ export class TeachersComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     // this.onWeek = (this.time.week > 0) && (this.time.week < 19);
-    this.httpService.getWeek(null, null, null).subscribe((data: Time) => {
+    this.httpService.getWeek(null, this.jstoday, null).subscribe((data: Time) => {
         this.time = data;
         this.onWeek = (this.time.week > 0) && (this.time.week < 19);
       },
@@ -261,7 +264,7 @@ export class TeachersComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   nextWeek( ) {
-    this.httpService.getWeek(this.time.week, null, this.time.monday).subscribe((data: Time) => {
+    this.httpService.getWeek(this.time.week, null, this.time.monday.toString()).subscribe((data: Time) => {
         this.time = data;
         this.form.get('date').setValue(null);
         this.search();
@@ -272,7 +275,7 @@ export class TeachersComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // кнопка пред неделя
   backWeek() {
-    this.httpService.getWeek(this.time.week, this.time.sunday, null).subscribe((data: Time) => {
+    this.httpService.getWeek(this.time.week, this.time.sunday.toString(), null).subscribe((data: Time) => {
         this.time = data;
         this.form.get('date').setValue(null);
         this.search();

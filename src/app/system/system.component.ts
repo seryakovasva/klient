@@ -62,7 +62,7 @@ export class SystemComponent implements OnInit {
   ngOnInit() {
     //test
     this.httpService.getData('main/test').subscribe((data: string) => {
-        console.log(data);
+        //console.log(data);
       },
       error1 => console.log(error1));
 

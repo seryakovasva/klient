@@ -12,6 +12,7 @@ import {Faculty} from '../../infoOfGroup/Faculty';
 import { saveAs } from 'file-saver';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-group',
@@ -56,12 +57,17 @@ export class GroupComponent implements OnInit, AfterViewInit, OnDestroy {
   allTeachers: string[] = [];//все преподаватели
   infOfGroups: Faculty[];
   groups: string[] = [];
+  newDate: Date;
+  myDate: number =  Date.now();
+  jstoday: string;
   constructor(private httpService: PairService) {
-
+    this.jstoday = formatDate(this.myDate, 'dd.MM.yyyy', 'en-US', '+0200');
+    this.newDate = new Date(this.jstoday);
   }
 
   ngOnInit() {
-    // console.log('kykys');
+    this.newDate.setDate(Date.parse(this.jstoday));
+   console.log(this.newDate + '  now');
     this.form = new FormGroup({
       nameGr: new FormControl(  null),
       discipline: new FormControl(  null),
@@ -72,7 +78,7 @@ export class GroupComponent implements OnInit, AfterViewInit, OnDestroy {
       teacher: new FormControl(  null )
     });
     // this.onWeek = (this.time.week > 0) && (this.time.week < 19);
-    this.httpService.getWeek(null, null, null).subscribe((data: Time) => {
+    this.httpService.getWeek(null, this.jstoday, null).subscribe((data: Time) => {
       this.time = data;
       console.log(this.time);
         this.onWeek = (this.time.week > 0) && (this.time.week < 19);
@@ -197,7 +203,7 @@ export class GroupComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   nextWeek( ) {
-    this.httpService.getWeek(this.time.week, null, this.time.monday).subscribe((data: Time) => {
+    this.httpService.getWeek(this.time.week, null, this.time.monday.toString()).subscribe((data: Time) => {
         this.time = data;
         this.form.get('date').setValue(null);
         this.search();
@@ -208,7 +214,7 @@ export class GroupComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // кнопка пред неделя
   backWeek() {
-    this.httpService.getWeek(this.time.week, this.time.sunday, null).subscribe((data: Time) => {
+    this.httpService.getWeek(this.time.week, this.time.sunday.toString(), null).subscribe((data: Time) => {
         this.time = data;
         this.form.get('date').setValue(null);
         this.search();

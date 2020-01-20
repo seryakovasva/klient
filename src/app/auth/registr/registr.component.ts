@@ -37,13 +37,13 @@ export class RegistrComponent implements OnInit {
       role: new FormControl('', [
         Validators.required])
     });
-    // if (this.httpService.isRole() === 'admin') {
+     if (this.httpService.isRole() === 'admin') {
       this.roles = ['Преподаватель', 'Редактор расписания'];
       this.visibleRole = true;
-    // } else {
-    //   this.visibleRole = false;
-    //   this.signUp.get('role').setValue('teacher');
-    // }
+     } else {
+       this.visibleRole = false;
+       this.signUp.get('role').setValue('teacher');
+     }
   }
   openSnackBar(msg: string) {
     this.snackBar.open(msg, 'Ok', {duration: 2000});

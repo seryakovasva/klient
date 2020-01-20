@@ -13,6 +13,7 @@ import {AuthService} from '../../auth/auth.service';
 import {Router} from '@angular/router';
 import {AddLessionComponent} from './add-lession/add-lession.component';
 import {saveAs} from 'file-saver';
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-create-rasp',
@@ -57,12 +58,15 @@ export class CreateRaspComponent implements OnInit, AfterViewInit, OnDestroy {
   numberP: number[] = [1, 2, 3, 4, 5, 6, 7, 8]; //номера пар
 
   form: FormGroup;
-
+  newDate: Date;
+  myDate: number =  Date.now();
+  jstoday: string;
   constructor(private httpService: PairService,
               private dialog: MatDialog,
               private auth: AuthService,
               private snackBar: MatSnackBar,
               public router: Router) {
+    this.jstoday = formatDate(this.myDate, 'dd.MM.yyyy', 'en-US', '+0200');
   }
 
   ngOnInit() {
@@ -74,7 +78,7 @@ export class CreateRaspComponent implements OnInit, AfterViewInit, OnDestroy {
     this.develop = false;
     // this.onWeek = (this.time.week > 0) || (this.time.week < 19);
     if (this.auth.isRole() === 'teacher') {//авторизован преподаватель
-    this.httpService.getWeek(null, null, null).subscribe((data: Time) => {
+    this.httpService.getWeek(null, this.jstoday, null).subscribe((data: Time) => {
         this.time = data;
         this.onWeek = (this.time.week > 0) && (this.time.week < 19);
 
@@ -157,7 +161,7 @@ export class CreateRaspComponent implements OnInit, AfterViewInit, OnDestroy {
 
 //кнопка след неделя
   nextWeek() {
-    this.httpService.getWeek(this.time.week, null, this.time.monday).subscribe((data: Time) => {
+    this.httpService.getWeek(this.time.week, null, this.time.monday.toString()).subscribe((data: Time) => {
         this.time = data;
         this.form.get('todayIn').setValue(null);
         this.updateTable();
@@ -169,7 +173,7 @@ export class CreateRaspComponent implements OnInit, AfterViewInit, OnDestroy {
 
   //кнопка пред неделя
   backWeek() {
-    this.httpService.getWeek(this.time.week, this.time.sunday, null).subscribe((data: Time) => {
+    this.httpService.getWeek(this.time.week, this.time.sunday.toString(), null).subscribe((data: Time) => {
         this.time = data;
         this.form.get('todayIn').setValue(null);
         this.updateTable();

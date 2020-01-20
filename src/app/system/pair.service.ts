@@ -20,7 +20,7 @@ export class PairService {
     return this.http.post('changeRasp/addInfofGroups', formData);
   }
 
-  getWeek(week: number, sun: Date, mon: Date) {
+  getWeek(week: number, sun: string, mon: string) {
     const reqBody = {
       week: week,
       sunday: sun,

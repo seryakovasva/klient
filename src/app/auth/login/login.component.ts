@@ -5,6 +5,7 @@ import {FormControl, FormGroup, ValidationErrors, Validators} from '@angular/for
 import { FormBuilder } from '@angular/forms';
 import {HttpErrorResponse} from '@angular/common/http';
 import {RoleGuardService} from '../role-guard.service';
+import {DatePipe, formatDate} from '@angular/common';
 
 
 @Component({
@@ -15,10 +16,18 @@ import {RoleGuardService} from '../role-guard.service';
 export class LoginComponent implements OnInit {
 
   form: FormGroup;
-
-  constructor(private router: Router, private http: AuthService) { }
+  //dateFormat = require('dateformat');
+  myDate: number =  Date.now();
+  jstoday = '';
+  //date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd HH:mm:ss');
+    constructor(private router: Router,
+              private http: AuthService) {
+      this.jstoday = formatDate(this.myDate, 'yyyy-MM-dd HH:mm:ss', 'en-US', '+0200');
+    }
 
   ngOnInit() {
+    //  this.dateFormat(this.myDate, 'yyyy-MM-dd HH:mm:ss');
+   // this.date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd HH:mm:ss');
     this.form = new FormGroup({
       login: new FormControl(null, [Validators.required]),
       password: new FormControl(null, [Validators.required]),
@@ -34,7 +43,6 @@ export class LoginComponent implements OnInit {
         this.form.get('password').value
       ).subscribe(
         (data: any) => {
-          console.log(data);
           localStorage.setItem('token', data.token.substr(7));
           localStorage.setItem('refreshToken', data.refresh);
           this.router.navigate(['/']);

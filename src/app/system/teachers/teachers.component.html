@@ -64,8 +64,9 @@
     Сохранить
   </button>
 
-  <app-table *ngIf="((develop)&&(tableBool))" [outPairs]="pairs" > </app-table>
-
+<!--  <app-table *ngIf="((develop)&&(tableBool))" [outPairs]="pairs" > </app-table>-->
+  <app-table *ngIf="((develop)&&(tableBool))" [outPairs]="pairs" [dataSource]="dataSource"
+             [paginator]="paginator"> </app-table>
 
 </form>
 <h2 class="centre" *ngIf="((!develop)&&(tableBool))">Занятия отсутсвуют</h2>
