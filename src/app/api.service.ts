@@ -20,8 +20,27 @@ export class ApiService {
               private router: Router) {
   }
   // get(url: string) {
-  //     return this.http.get(this.serviceIP + url, {headers: this.createAuthorizationHeader()});
+  //   if (localStorage.getItem('token') != null) {
+  //     const options = {
+  //       headers: this.createAuthorizationHeader(),
+  //       withCredentials: true
+  //     };
+  //     return this.checkToken(url, options, 'GET');
+  //   } else {
+  //     const options1 = {
+  //       headers: this.jsonHeaders,
+  //       withCredentials: true
+  //     };
+  //     return this.http.get(this.serviceIP + url, options1);
+  //   }
   // }
+  get(url: string) {
+      const options = {
+        headers: this.createAuthorizationHeader(),
+        withCredentials: true
+      };
+      return this.http.get(this.serviceIP + url, options);
+  }
 
   getFile(url: string, paramGroup: string, paramTeacher: string) {
       const params = new HttpParams().set('group', paramGroup).set('teacher', paramTeacher);
@@ -29,41 +48,99 @@ export class ApiService {
     // }
   }
 
-  // post(url: string, object: any): Observable<any> {
-  //     if (localStorage.getItem('token') != null) {
-  //       console.log('check');
-  //        if (this.checkToken()) {
-  //          return this.http.post(this.serviceIP + url, object, {headers: this.createAuthorizationHeader()});
-  //        }
-  //     }
-  //    // return this.http.post(this.serviceIP + url, object, {headers: this.createAuthorizationHeader()});
-  //   return this.http.post(this.serviceIP + url, object);
-  // }
   post(url: string, object: any): Observable<any> {
-    if (localStorage.getItem('token') != null) {
-      console.log('check');
-      if (this.checkToken()) {
-        const options = {
-          headers: this.createAuthorizationHeader(),
-          body: object,
-          withCredentials: true
-        };
-        return this.http.request('POST', this.serviceIP + url, options)
-          .pipe(map((response) => {
-            return this.mapResponse(url, response);
-          }));
-      }
-    }
-    const options1 = {
-      headers: this.jsonHeaders,
-      body: object,
-      withCredentials: true
-    };
-    return this.http.request('POST', this.serviceIP + url, options1)
-      .pipe(map((response) => {
-        return this.mapResponse(url, response);
-      }));
+    console.log('МЕТОД ПОСТ' + url);
+    return this.http.post(this.serviceIP + url, object, {headers: this.createAuthorizationHeader()});
   }
+//       if (localStorage.getItem('token') != null) {
+//         console.log('check');
+//          if (this.checkToken()) {
+//            return this.http.post(this.serviceIP + url, object, {headers: this.createAuthorizationHeader()});
+//          }
+//       }
+//      return this.http.post(this.serviceIP + url, object, {headers: this.createAuthorizationHeader()});
+//     return this.http.post(this.serviceIP + url, object);
+//  }
+// }
+ //  post(url: string, object: any): Observable<any> {
+ //    if (localStorage.getItem('token') != null) {
+ //      const options = {
+ //        headers: this.createAuthorizationHeader(),
+ //        body: object,
+ //        withCredentials: true
+ //      };
+ //      this.get('auth/dateCheck')
+ //        .subscribe((data: any) => {
+ //            console.log('Токен действителен');
+ //            return this.http.request('POST', this.serviceIP + url, options);
+ //          },
+ //          (response: HttpErrorResponse) => {
+ //            if (response.status === 401) {
+ //              this.get('auth/updateTok')
+ //                .subscribe((data: any) => {
+ //                    localStorage.setItem('token', data.token.substr(7));
+ //                    localStorage.setItem('refreshToken', data.refresh);
+ //                    console.log('Токен обновлен');
+ //                    const options1 = {
+ //                      headers: this.createAuthorizationHeader(),
+ //                      // body: object1,
+ //                      withCredentials: true
+ //                    };
+ //                    return this.http.request('POST', this.serviceIP + url, options1)
+ //                      .pipe(map((response1) => {
+ //                      }));
+ //                  },
+ //                  (response1: HttpErrorResponse) => {
+ //                    console.log(response1.status);
+ //                    this.router.navigate(['/auth/login']);
+ //                    localStorage.removeItem('token');
+ //                    localStorage.removeItem('refresh');
+ //                    console.log('444');
+ //                    return null;
+ //                  });
+ //            } else {
+ //              this.router.navigate(['/auth/login']);
+ //              localStorage.removeItem('token');
+ //              localStorage.removeItem('refresh');
+ //              console.log('555');
+ //              return null;
+ //            }
+ //          });
+ //    } else {
+ //      const options1 = {
+ //             headers: this.jsonHeaders,
+ //             body: object,
+ //             withCredentials: true
+ //           };
+ //           return this.http.request('POST', this.serviceIP + url, options1)
+ //             .pipe(map((response) => {
+ //               return this.mapResponse(url, response);
+ //             }));
+ //    }
+ //    }
+  //     console.log('check token');
+  //     if (this.checkToken()) {
+  //       const options = {
+  //         headers: this.createAuthorizationHeader(),
+  //         body: object,
+  //         withCredentials: true
+  //       };
+  //       return this.http.request('POST', this.serviceIP + url, options)
+  //         .pipe(map((response) => {
+  //           return this.mapResponse(url, response);
+  //         }));
+  //     }
+  //   }
+  //   const options1 = {
+  //     headers: this.jsonHeaders,
+  //     body: object,
+  //     withCredentials: true
+  //   };
+  //   return this.http.request('POST', this.serviceIP + url, options1)
+  //     .pipe(map((response) => {
+  //       return this.mapResponse(url, response);
+  //     }));
+  // }
 
   createAuthorizationHeader(): HttpHeaders {
     const header = new HttpHeaders();
@@ -75,28 +152,28 @@ export class ApiService {
     return header.append('Authorization', 'Bearer ' + localStorage.getItem('refreshToken'));
   }
 
-  public get(methodName: string) {
-    const url = this.serviceIP + methodName;
-    console.log('calling ' + methodName);
-     const options = {
-       headers: this.createAuthorizationHeader(),
-       withCredentials: true
-     };
-    return this.http.request('GET', url, options)
-      .pipe(map((response) => {
-        return this.mapResponse(methodName, response);
-      }));
-  }
+  // public get(methodName: string) {
+  //   const url = this.serviceIP + methodName;
+  //   console.log('calling ' + methodName);
+  //    const options = {
+  //      headers: this.createAuthorizationHeader(),
+  //      withCredentials: true
+  //    };
+  //   return this.http.request('GET', url, options)
+  //     .pipe(map((response) => {
+  //       return this.mapResponse(methodName, response);
+  //     }));
+  // }
 
   private mapResponse(methodName, response) {
     console.log(methodName + ' call result: ', response);
     return response;
   }
-  checkToken(): any {
+  checkToken(url: string, options: any, met: string): any {
     this.get('auth/dateCheck')
       .subscribe((data: any) => {
-          console.log('222');
-          return true;
+          console.log('Токен действителен');
+          return this.http.request(met, this.serviceIP + url, options);
         },
         (response: HttpErrorResponse) => {
           if (response.status === 401) {
@@ -104,8 +181,15 @@ export class ApiService {
               .subscribe((data: any) => {
                   localStorage.setItem('token', data.token.substr(7));
                   localStorage.setItem('refreshToken', data.refresh);
-                  console.log('333');
-                  return true;
+                  console.log('Токен обновлен');
+                const options1 = {
+                  headers: this.createAuthorizationHeader(),
+                  // body: object1,
+                  withCredentials: true
+                };
+                return this.http.request('POST', this.serviceIP + url, options1)
+                  .pipe(map((response1) => {
+                  }));
                 },
                 (response1: HttpErrorResponse) => {
                   console.log(response1.status);
@@ -113,14 +197,14 @@ export class ApiService {
                   localStorage.removeItem('token');
                   localStorage.removeItem('refresh');
                   console.log('444');
-                  return false;
+                  return null;
                 });
           } else {
             this.router.navigate(['/auth/login']);
             localStorage.removeItem('token');
             localStorage.removeItem('refresh');
             console.log('555');
-            return false;
+            return null;
           }
         });
   }

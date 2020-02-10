@@ -43,8 +43,9 @@ export class LoginComponent implements OnInit {
         this.form.get('password').value
       ).subscribe(
         (data: any) => {
+          console.log(data);
           localStorage.setItem('token', data.token.substr(7));
-          localStorage.setItem('refreshToken', data.refresh);
+          localStorage.setItem('refreshToken', data.refreshToken);
           this.router.navigate(['/']);
         },
         (response: HttpErrorResponse) => {

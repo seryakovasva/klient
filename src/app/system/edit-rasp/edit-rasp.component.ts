@@ -401,6 +401,7 @@ export class EditRaspComponent implements OnInit {
             this.disciplines.sort();
             this.filteredGroups.next(this.groupName.slice());
 
+            this.tableBool = false;
             // ???прослушка изменений поля поиска
             this.groupFilderCtrl.valueChanges
               .pipe(takeUntil(this._onDestroy))
